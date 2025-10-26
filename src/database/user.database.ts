@@ -12,7 +12,8 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
     name: { type: String },
-    email: { type: String },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
     phone: { type: String },
     website: { type: String },
 }, { collection: 'user' });
@@ -48,15 +49,9 @@ export const userDatabase = mongoose.model('user', userSchema);
 // export const connectionPool = new sql.ConnectionPool(config)
 //     .connect()
 //     .then((pool) => {
-//         console.log('SQL Server Connected Successfully');
 //         return pool;
 //     })
 //     .catch((err) => {
-//         console.log('SQL Server Connection Failed');
-//         console.error('Error name:', err.name);
-//         console.error('Error message:', err.message);
-//         console.error('Error code:', err.code);
-//         console.error('Original error:', err.originalError);
 //         throw err;
 //     });
 
