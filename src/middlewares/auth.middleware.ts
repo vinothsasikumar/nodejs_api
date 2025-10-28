@@ -1,18 +1,23 @@
 import { Request, Response, NextFunction } from 'express';
-import { validate } from '../utilities/jwt';
+import { verifyToken } from '../utilities/jwt';
 
 export const authenticate = (req: Request, res: Response, next: NextFunction) => {
+    const authenticationHeader = req.headers.authorization;
+    if (!authenticationHeader || !authenticationHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ message: 'User is not authenticated' });
+    }
+
+    const token = authenticationHeader.split(' ')[1];
     try {
-        const authenticationHeader = req.headers.authorization;
-        if (!authenticationHeader || !authenticationHeader.startsWith('Bearer ')) {
-            return res.status(401).json('User is not authenticated');
+        const payload = verifyToken(token) as any;
+        
+        if (!payload || (!payload.userId && !payload.id)) {
+            return res.status(401).json({ message: 'Invalid token payload' });
         }
 
-        const token = authenticationHeader.split(' ')[1];
-        const payload = validate(token);
-        next();
-    }
-    catch (err) {
-        return res.status(401).json(err);
+        (req as any).user = payload;
+        return next();
+    } catch (err) {
+        return res.status(401).json({ message: 'Invalid or expired token' });
     }
 }
