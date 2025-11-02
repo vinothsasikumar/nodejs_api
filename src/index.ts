@@ -21,10 +21,10 @@ app.use(httpLogger);
 
 mongoose.connect('mongodb://localhost:27017/crud')
     .then(() => {
-        // MongoDB connected successfully
+        console.log('MongoDB connected successfully');
     })
     .catch(() => {
-        // MongoDB connection failed
+        console.log('MongoDB connection failed');
     });
 
 app.use('/api-docs', swagger.serve, swagger.setup(swaggerDocument));
@@ -35,5 +35,5 @@ app.use('/auth', authRouter);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-    // Server is running
+    console.log(`Server is running at http://localhost: ${PORT}`);
 });
