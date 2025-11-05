@@ -18,7 +18,7 @@ export default defineConfig({
     },
     testTimeout: 10000,
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    exclude: ['node_modules', 'dist', '.idea', '.git', '.cache'],
+    exclude: ['node_modules', 'dist', '.idea', '.git', '.cache', '.claude'],
   },
   resolve: {
     alias: {
